@@ -7,7 +7,13 @@ const passport =require('passport');
 const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const redisClient = redis.createClient();
+if (process.env.REDISCLOUD_URL) {
+	let redisURL = url.parse(process.env.REDISCLOUD_URL);
+	const redisClient = redis.createClient(redisURL, { no_ready_check: true })
+} else {
+	const redisClient = redis.createClient()
+}
+// const redisClient = redis.createClient(process.env.REDISCLOUD_URL, { no_ready_check: true });
 
 const flash = require('connect-flash');
 
