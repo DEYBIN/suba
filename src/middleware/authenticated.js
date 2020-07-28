@@ -1,4 +1,4 @@
-module.exports= function(req,res,nex){
+module.exports= function(req,res,next){
 	if (req.session.login) {
 		if (req.baseUrl == "/auth" || req.baseUrl == "/login") {
 			res.redirect("/dashboard");

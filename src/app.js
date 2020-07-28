@@ -4,22 +4,21 @@ const path = require('path');
 const cors =require('cors');
 const morgan=require('morgan');
 const passport =require('passport');
-const redis = require('redis');
+// const redis = require('redis');
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-let redisClient;
-if (process.env.REDISCLOUD_URL) {
-	let redisURL = url.parse(process.env.REDISCLOUD_URL);
-	redisClient = redis.createClient(redisURL, { no_ready_check: true });
-} else {
-	redisClient = redis.createClient();
-}
-// const redisClient = redis.createClient(process.env.REDISCLOUD_URL, { no_ready_check: true });
+//configuración redis
+	// const RedisStore = require('connect-redis')(session);
+	// let redisClient;
+	// if (process.env.REDISCLOUD_URL) {
+	// 	redisClient = redis.createClient(process.env.REDISCLOUD_URL, { no_ready_check: true });
+	// } else {
+	// 	redisClient = redis.createClient();
+	// }
 
 const flash = require('connect-flash');
 
 
-// const isAuthenticated = require('./middleware/authenticated');
+
 
 
 //settings
@@ -60,7 +59,7 @@ app.use(express.urlencoded({ extended: true }));
 // 	saveUninitialized: false
 // }));
 app.use(session({
-	store: new RedisStore({ client: redisClient}),
+	// store: new RedisStore({ client: redisClient}),
 	secret: 'Redis$ecretP@ssword2020',
 	resave: false,
 	saveUninitialized: false
@@ -73,42 +72,8 @@ app.use(passport.session());
 // 	next();
 // });
 
+const isAuthenticated = require('./middleware/authenticated');
 
-function isAuthenticated(req, res, next) {	
-	if (req.session.login) {
-		if (req.baseUrl == "/auth" || req.baseUrl == "/login") {
-			res.redirect("/dashboard");
-		} else {
-			return next();
-		}
-		// return next();
-	}else{
-		if (req.baseUrl == "/auth" || req.baseUrl == "/login") {
-			return next();
-		} else {
-			res.redirect("/login");
-		}
-	}
-
-}
-
-// function isAuthenticated(req, res, next) {	
-// 	if (req.isAuthenticated()) {
-// 		if (req.baseUrl == "/auth") {
-// 			res.redirect("/");
-// 		} else {
-// 			return next();
-// 		}
-// 		return next();
-// 	}else{
-// 		if (req.baseUrl == "/auth") {
-// 			return next();
-// 		} else {
-// 			res.redirect("/");
-// 		}
-// 	}
-	
-// }
 
 
 //routers
