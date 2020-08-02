@@ -159,13 +159,13 @@ passport.deserializeUser(async (json, done) => {
 			SecurityClient.findOne({ email: data.email }, function (err, user) {
 				if (err) throw (err);
 				if (!err && user == null) {
-					const newSecurityDriver = new SecurityDriver();
-					newSecurityDriver.email = data.email;
-					newSecurityDriver.password = newSecurityDriver.encryptPassword(data.password);
+					const newSecurityClient = new SecurityClient();
+					newSecurityClient.email = data.email;
+					newSecurityClient.password = newSecurityClient.encryptPassword(data.password);
 
-					newSecurityDriver.save(function (err) {
+					newSecurityClient.save(function (err) {
 						if (err) throw (err);
-						return done(null, newSecurityDriver);
+						return done(null, newSecurityClient);
 					});
 				} else {
 					return done(null, false);

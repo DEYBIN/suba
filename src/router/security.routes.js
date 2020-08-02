@@ -47,6 +47,7 @@ router.route("/client/google/callback").get(passport.authenticate('signup-google
 	passReqToCallback: true
 }));
 
+
 router.route("/driver/signup").post(passport.authenticate('signup-driver',{
 	successRedirect: '/auth/success',
 	failureRedirect: '/auth/error-registro',
