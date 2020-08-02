@@ -6,6 +6,19 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const SecurityDriver = require('../models/schema.SecurityDriver');
 const SecurityClient = require('../models/schema.SecurityClient');
 const config = require('./config');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+	host: 'webmail.platcont.com',
+	secure: false,
+	auth: {
+		user: 'test@platcont.com',
+		pass: 'Cont@123'
+	},
+	tls : {
+		rejectUnauthorized : false
+	}
+});
 
 passport.serializeUser((user, done) => {
 	done(null, { id: user.id, type: user.type});
@@ -87,6 +100,12 @@ passport.deserializeUser(async (json, done) => {
 				});
 				newSecurityDriver.save(function (err) {
 					if (err) throw err;
+					// transporter.sendMail({
+					// 	from: "'Suba Support' <test@platcont.com>",
+					// 	to: newSecurityDriver.email,
+					// 	subject: 'website contact form',
+					// 	text: 'Bien venido a la familia Suba'
+					// });
 					done(null, newSecurityDriver);
 				});
 			});
@@ -116,6 +135,12 @@ passport.deserializeUser(async (json, done) => {
 				});
 				newSecurityDriver.save(function (err) {
 					if (err) throw err;
+					// transporter.sendMail({
+					// 	from: "'Suba Support' <test@platcont.com>",
+					// 	to: newSecurityDriver.email,
+					// 	subject: 'website contact form',
+					// 	text: 'Bien venido a la familia Suba'
+					// });
 					done(null, newSecurityDriver);
 				});
 			});

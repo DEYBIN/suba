@@ -59,13 +59,18 @@ router.route("/driver/login").post(passport.authenticate('login-driver', {
 	passReqToCallback: true
 }));
 
-router.route("/client").post(passport.authenticate('signup'));
-
-router.route("/client/callback").get(passport.authenticate('signup', {
+router.route("/client/signup").post(passport.authenticate('signup-client', {
+	successRedirect: '/auth/success',
+	failureRedirect: '/auth/error-registro',
+	// failureMessage: message,
+	passReqToCallback: true
+}));
+router.route("/client/login").post(passport.authenticate('login-client', {
 	successRedirect: '/auth/success',
 	failureRedirect: '/auth/error',
 	passReqToCallback: true
 }));
+
 router.route("/success").get(getSecuritySuccess);
 router.route("/error").get(getSecurityError);
 router.route('/error-registro').get(getSecurityErrorRegistro);
