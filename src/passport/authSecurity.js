@@ -156,7 +156,7 @@ passport.deserializeUser(async (json, done) => {
 			passReqToCallback: true
 		}, function (req, username, password, done) {
 			const data = req.body.data;
-			SecurityDriver.findOne({ email: data.email }, function (err, user) {
+			SecurityClient.findOne({ email: data.email }, function (err, user) {
 				if (err) throw (err);
 				if (!err && user == null) {
 					const newSecurityDriver = new SecurityDriver();
@@ -179,7 +179,7 @@ passport.deserializeUser(async (json, done) => {
 			passwordField: "password",
 			passReqToCallback: true
 		}, function (req, email, password, done){
-			SecurityDriver.findOne({ email: email }, function (err, user) {
+			SecurityClient.findOne({ email: email }, function (err, user) {
 				if (err) throw (err);
 				if (!err && user != null) {
 					if (user.comparePassword(password)) {
